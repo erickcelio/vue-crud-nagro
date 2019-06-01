@@ -13,7 +13,7 @@ export default {
 </script>
 
 <style lang="scss">
-  @import "assets/_colors";
+  @import "assets/scss/colors";
 body {
   font-family: 'Arial', Helvetica, Arial, sans-serif;
   font-style: normal;
@@ -22,6 +22,7 @@ body {
   margin: 0;
   background: $background-gradient;
   #app {
+    display: flex;
     height: 100vh;
     width: 100vw;
   }

@@ -1,0 +1,17 @@
+@mixin row {
+  display: flex;
+  flex-direction: row;
+}
+
+@mixin column {
+  display: flex;
+  flex-direction: column;
+}
+
+@mixin responsive($device) {
+  @if ($device == m) {
+    @media only screen and (max-width: 767px) {
+      @content;
+    }
+  }
+}
