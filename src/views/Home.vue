@@ -1,13 +1,13 @@
 <template>
   <div class="container">
-    <div class="menu">
+    <router-link tag="div" class="menu" to="/growers">
       <div class="img grower"></div>
       <span class="title">Produtores</span>
-    </div>
-    <div class="menu">
+    </router-link>
+    <router-link tag="div" class="menu" to="/properties">
       <div class="img properties"></div>
       <span class="title">Propriedades</span>
-    </div>
+    </router-link>
   </div>
 </template>
 

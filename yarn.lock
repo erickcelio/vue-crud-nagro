@@ -9938,6 +9938,11 @@ vm-browserify@0.0.4:
   dependencies:
     indexof "0.0.1"
 
+vue-awesome@^3.5.3:
+  version "3.5.3"
+  resolved "https://registry.yarnpkg.com/vue-awesome/-/vue-awesome-3.5.3.tgz#ff0f00d0717801d5fc9d8c06717481007dbeeb7b"
+  integrity sha512-TzkL0GImNVhj/hUdHVCV3rUK+ozgac565z1aeu3G61gYL8q+TPc0sl1PGDEl0nOMaOh3fade/IgC160egZzbMg==
+
 vue-eslint-parser@^2.0.3:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/vue-eslint-parser/-/vue-eslint-parser-2.0.3.tgz#c268c96c6d94cfe3d938a5f7593959b0ca3360d1"

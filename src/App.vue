@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <Background />
-    <router-view/>
+    <router-view class="view"/>
   </div>
 </template>
 
@@ -25,6 +25,9 @@ body {
     display: flex;
     height: 100vh;
     width: 100vw;
+  }
+  .view {
+    z-index: 1;
   }
 }
 </style>
