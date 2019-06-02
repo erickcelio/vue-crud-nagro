@@ -3,6 +3,11 @@ import Router from 'vue-router'
 import Home from './views/Home.vue'
 
 const Growers = () => import('./views/Growers')
+const GrowersList = () => import('@/views/growers/List')
+const GrowersView = () => import('@/views/growers/View')
+const GrowersNew = () => import('@/views/growers/New')
+const GrowersEdit = () => import('@/views/growers/Edit')
+
 const Properties = () => import('./views/Properties')
 
 Vue.use(Router)
@@ -19,7 +24,25 @@ export default new Router({
     {
       path: '/growers',
       name: 'growers',
-      component: Growers
+      component: Growers,
+      children: [
+        {
+          path: '',
+          component: GrowersList
+        },
+        {
+          path: 'view/:id',
+          component: GrowersView
+        },
+        {
+          path: 'new',
+          component: GrowersNew
+        },
+        {
+          path: 'edit/:id',
+          component: GrowersEdit
+        }
+      ]
     },
     {
       path: '/properties',

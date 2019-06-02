@@ -12,6 +12,13 @@
           placeholder="Digite algo aqui..."
           type="text"
           v-model="filter">
+        <Button
+          v-if="createButton"
+          class="create-button"
+          :text="createButton.text"
+          :onClick="onClickCreateButton"
+          icon="plus"
+        />
       </div>
       <table>
         <thead>
@@ -31,7 +38,11 @@
         </tr>
         </thead>
         <tbody v-if="paginatedItems[currentPage].length">
-        <tr class="data" v-for="(item, index) in paginatedItems[currentPage]" :key="index">
+        <tr
+          class="data"
+          v-for="(item, index) in paginatedItems[currentPage]"
+          @click="onSelectItem(item)"
+          :key="index">
           <td
             v-for="(field, index) in fields"
             :style="`text-align: ${field.align || 'left'}`"
@@ -76,13 +87,16 @@
 
 <script>
 import SelectButton from './SelectButton'
+import Button from './Button'
 export default {
   name: 'table',
-  components: { SelectButton },
+  components: { SelectButton, Button },
   props: {
     items: Array,
     fields: Array,
-    maxItems: String
+    maxItems: String,
+    route: String,
+    createButton: Object
   },
   data () {
     return {
@@ -108,6 +122,12 @@ export default {
       if (page >= 0 && page < maxPage) {
         this.currentPage = page
       }
+    },
+    onClickCreateButton: function () {
+      this.$router.push(this.createButton.route)
+    },
+    onSelectItem: function (item) {
+      this.$router.push(`${this.route}/view/${item.id}`)
     }
   },
   computed: {
@@ -172,6 +192,13 @@ export default {
         font-weight: bold;
         color: $secondary-color;
       }
+      .create-button {
+        @include responsive(m) {
+          position: absolute;
+          top: 15px;
+          right: 10px;
+        }
+      }
     }
     .pagination {
       @include row;
@@ -200,7 +227,7 @@ export default {
         }
         .current-page {
           color: white;
-          text-shadow: 1px  1px $primary-color, -1px  1px $primary-color, 1px -1px $primary-color, -1px -1px $primary-color, 1px 1px 2px $secondary-color;
+          @include text-shadow-primary;
         }
       }
     }

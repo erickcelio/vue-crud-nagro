@@ -67,7 +67,7 @@ export default {
         z-index: 1;
         font-size: 32px;
         font-weight: bold;
-        text-shadow: 1px  1px $primary-color, -1px  1px $primary-color, 1px -1px $primary-color, -1px -1px $primary-color, 1px 1px 2px $secondary-color;
+        @include text-shadow-primary;
         &::after {
           content: '';
           height: 3px;
