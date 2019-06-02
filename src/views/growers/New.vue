@@ -28,11 +28,11 @@ export default {
   methods: {
     ...mapActions(['newGrower']),
     cancelFunction: function () {
-      this.$router.push(`/growers/`)
+      this.$router.push(`/growers`)
     },
     confirmFunction: async function (data) {
       await this.newGrower(data)
-      this.$router.push(`/growers/`)
+      this.$router.push(`/growers`)
     }
   }
 }

@@ -2,10 +2,10 @@
   <div>
     <ReturnPage />
     <TableComponent
-      :items="growers"
+      :items="properties"
       :fields="fields"
       :create-button="createButton"
-      route="growers"
+      route="properties"
       max-items="10"/>
   </div>
 </template>
@@ -14,30 +14,30 @@
 import { mapActions, mapGetters } from 'vuex'
 import TableComponent from '@/components/TableComponent'
 export default {
-  name: 'growers',
+  name: 'properties',
   components: {
     TableComponent
   },
   data () {
     return {
       fields: [
-        { name: 'CPF', nameInArray: 'cpf', width: 45, align: 'center' },
-        { name: 'Nome', nameInArray: 'name', width: 55 }
+        { name: 'Cidade', nameInArray: 'city', width: 40 },
+        { name: 'Nome', nameInArray: 'name', width: 60 }
       ],
       createButton: {
-        text: 'Novo Produtor',
-        route: 'growers/new'
+        text: 'Nova Propriedade',
+        route: 'properties/new'
       }
     }
   },
   mounted () {
-    this.fetchGrowers()
+    this.fetchProperties()
   },
   computed: {
-    ...mapGetters(['growers'])
+    ...mapGetters(['properties'])
   },
   methods: {
-    ...mapActions(['fetchGrowers'])
+    ...mapActions(['fetchProperties'])
   }
 }
 </script>

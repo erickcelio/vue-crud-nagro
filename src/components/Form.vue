@@ -4,14 +4,19 @@
       {{ title }}
     </div>
     <div class="form-body">
-      <div v-if="type === 'new'">
-        New
-      </div>
-      <div v-else-if="type === 'edit'">
+      <div v-if="type === 'edit'">
         <div v-for="(field, index) in fields" :key="index">
           <label v-if="field.type === 'text'" class="input-container">
             <span class="input-title"> {{field.name}} </span>
             <input class="input" type="text" v-model="data[field.key]">
+          </label>
+          <label v-else-if="field.type === 'select' && field.data" class="input-container">
+            <span class="input-title"> {{field.name}} </span>
+            <SelectButton
+              class="input"
+              :options="field.data"
+              :on-select="field.onSelect"
+              :option-selected="field.selected"/>
           </label>
         </div>
         <div class="buttons-group">
@@ -56,9 +61,10 @@
 
 <script>
 import Button from './Button'
+import SelectButton from './SelectButton'
 export default {
   name: 'FormComponent',
-  components: { Button },
+  components: { Button, SelectButton },
   props: {
     type: String,
     data: Object,

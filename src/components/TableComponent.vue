@@ -89,7 +89,7 @@
 import SelectButton from './SelectButton'
 import Button from './Button'
 export default {
-  name: 'table',
+  name: 'tableComponent',
   components: { SelectButton, Button },
   props: {
     items: Array,

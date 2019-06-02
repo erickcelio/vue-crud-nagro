@@ -9,6 +9,10 @@ const GrowersNew = () => import('@/views/growers/New')
 const GrowersEdit = () => import('@/views/growers/Edit')
 
 const Properties = () => import('./views/Properties')
+const PropertiesList = () => import('@/views/properties/List')
+const PropertiesView = () => import('@/views/properties/View')
+const PropertiesNew = () => import('@/views/properties/New')
+const PropertiesEdit = () => import('@/views/properties/Edit')
 
 Vue.use(Router)
 
@@ -23,7 +27,6 @@ export default new Router({
     },
     {
       path: '/growers',
-      name: 'growers',
       component: Growers,
       children: [
         {
@@ -46,8 +49,25 @@ export default new Router({
     },
     {
       path: '/properties',
-      name: 'properties',
-      component: Properties
+      component: Properties,
+      children: [
+        {
+          path: '',
+          component: PropertiesList
+        },
+        {
+          path: 'view/:id',
+          component: PropertiesView
+        },
+        {
+          path: 'new',
+          component: PropertiesNew
+        },
+        {
+          path: 'edit/:id',
+          component: PropertiesEdit
+        }
+      ]
     }
   ]
 })

@@ -20,12 +20,13 @@ export default {
   name: 'SelectButton',
   data () {
     return {
-      selected: this.options[0],
-      showOptions: false
+      showOptions: false,
+      selected: this.optionSelected || this.options[0]
     }
   },
   props: {
     options: Array,
+    optionSelected: Object,
     onSelect: Function
   },
   methods: {
