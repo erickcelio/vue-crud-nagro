@@ -1,6 +1,11 @@
 <template>
-  <div @click="returnPage">
-    <v-icon name="arrow-left" scale="2.5" class="return"/>
+  <div>
+    <div @click="returnPage">
+      <v-icon
+        name="arrow-left"
+        scale="2.5"
+        class="return"/>
+    </div>
   </div>
 </template>
 
@@ -15,10 +20,13 @@ export default {
 }
 </script>
 
-<style>
-  .return {
-    cursor: pointer;
-    margin-left: 18px;
-    margin-top: 18px;
+<style scoped lang="scss">
+  div {
+    display: flex;
+    .return {
+      cursor: pointer;
+      margin-left: 18px;
+      margin-top: 18px;
+    }
   }
 </style>

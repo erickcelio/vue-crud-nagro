@@ -24,7 +24,8 @@ body {
   #app {
     display: flex;
     height: 100vh;
-    width: 100vw;
+    max-width: 100vw;
+    overflow-y: auto;
   }
   .view {
     z-index: 1;

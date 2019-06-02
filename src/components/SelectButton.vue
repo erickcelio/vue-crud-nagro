@@ -59,7 +59,8 @@ export default {
     }
     #selectOptions {
       @include column;
-      justify-content: center;
+      width: 100%;
+      align-items: center;
       top: 41.5px;
       left: 0;
       background-color:  white;

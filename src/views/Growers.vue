@@ -1,7 +1,7 @@
 <template>
   <div>
     <ReturnPage />
-    <Table :items="growers" :fields="fields"/>
+    <Table :items="growers" :fields="fields" max-items="10"/>
   </div>
 </template>
 
@@ -13,8 +13,8 @@ export default {
   data () {
     return {
       fields: [
-        { name: 'CPF', nameInArray: 'cpf', width: 40 },
-        { name: 'Nome', nameInArray: 'name', width: 60 }
+        { name: 'CPF', nameInArray: 'cpf', width: 45, align: 'center' },
+        { name: 'Nome', nameInArray: 'name', width: 55 }
       ]
     }
   },

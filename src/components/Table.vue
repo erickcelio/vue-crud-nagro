@@ -1,19 +1,20 @@
 <template>
-  <div id="tableComponent">
-    <div class="filter">
-      <SelectButton
-        class="selectButton"
-        :on-select="onChangeFilterBy"
-        :options="fields"
-      />
-      <input
-        class="filterInput"
-        placeholder="Digite algo aqui..."
-        type="text"
-        v-model="filter">
-    </div>
-    <table>
-      <thead>
+  <div class="container">
+    <div id="tableComponent">
+      <div class="filter">
+        <SelectButton
+          class="selectButton"
+          :on-select="onChangeFilterBy"
+          :options="fields"
+        />
+        <input
+          class="filterInput"
+          placeholder="Digite algo aqui..."
+          type="text"
+          v-model="filter">
+      </div>
+      <table>
+        <thead>
         <tr class="fields">
           <th
             v-for="(field, index) in fields"
@@ -28,17 +29,20 @@
             />
           </th>
         </tr>
-      </thead>
-      <tbody v-if="orderedItems.length">
-        <tr class="data" v-for="(item, index) in orderedItems" :key="index">
-          <td v-for="(field, index) in fields" :key="index">
+        </thead>
+        <tbody v-if="paginatedItems[currentPage].length">
+        <tr class="data" v-for="(item, index) in paginatedItems[currentPage]" :key="index">
+          <td
+            v-for="(field, index) in fields"
+            :style="`text-align: ${field.align || 'left'}`"
+            :key="index">
             <span>
               {{ item[field.nameInArray] }}
             </span>
           </td>
         </tr>
-      </tbody>
-      <tbody v-else>
+        </tbody>
+        <tbody v-else>
         <tr class="data">
           <td :colspan="fields.length" style="text-align: center">
             <span>
@@ -46,8 +50,27 @@
             </span>
           </td>
         </tr>
-      </tbody>
-    </table>
+        </tbody>
+      </table>
+      <div class="pagination">
+        <div>
+        <span class="chevron" @click="updateCurrentPage(currentPage - 1)">
+          <v-icon name="chevron-left" scale="2"/>
+        </span>
+          <span
+            v-for="(_, index) in paginatedItems"
+            :key="index"
+            @click="updateCurrentPage(index)"
+            :class="currentPage === index ? 'current-page' : ''"
+            class="page-counter">
+          {{ index + 1 }}
+        </span>
+          <span class="chevron" @click="updateCurrentPage(currentPage + 1)">
+          <v-icon name="chevron-right" scale="2"/>
+        </span>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -56,12 +79,18 @@ import SelectButton from './SelectButton'
 export default {
   name: 'table',
   components: { SelectButton },
+  props: {
+    items: Array,
+    fields: Array,
+    maxItems: String
+  },
   data () {
     return {
       orderBy: null,
       orderDirection: 'asc',
       filter: '',
-      filterBy: this.fields[0].nameInArray
+      filterBy: this.fields[0].nameInArray,
+      currentPage: 0
     }
   },
   methods: {
@@ -73,22 +102,38 @@ export default {
     },
     onChangeFilterBy: function (option) {
       this.filterBy = option.nameInArray
+    },
+    updateCurrentPage: function (page) {
+      const maxPage = this.paginatedItems.length
+      if (page >= 0 && page < maxPage) {
+        this.currentPage = page
+      }
     }
   },
-  props: {
-    items: Array,
-    fields: Array
-  },
   computed: {
-    orderedItems: function () {
-      const { orderBy, orderDirection, filter, filterBy, items } = this
+    paginatedItems: function () {
+      const { maxItems, orderBy, orderDirection, filter, filterBy, items } = this
+      let numberOfPages = 1
+      let filteredItems
+      let paginatedItems
+
       if (orderBy && orderDirection) {
         orderDirection === 'asc'
           ? items.sort((a, b) => (a[orderBy] > b[orderBy]) ? 1 : -1)
           : items.sort((a, b) => (a[orderBy] < b[orderBy]) ? 1 : -1)
       }
-      return items.filter((item) =>
+
+      filteredItems = items.filter((item) =>
         item[filterBy].toLowerCase().includes(filter.toLowerCase()))
+
+      if (filteredItems.length) {
+        numberOfPages = Math.ceil(filteredItems.length / parseInt(maxItems))
+      }
+
+      paginatedItems = [...Array(numberOfPages)].map(() =>
+        filteredItems.splice(0, maxItems))
+
+      return paginatedItems
     }
   }
 }
@@ -97,9 +142,16 @@ export default {
 <style scoped lang="scss">
   @import "../assets/scss/colors";
   @import "../assets/scss/mixins";
+  .container {
+    width: 100vw;
+    @include row;
+    align-items: center;
+    justify-content: center;
+  }
   #tableComponent {
     overflow-x: auto;
     padding: 12px;
+    max-width: 1000px;
     .filter {
       @include row;
       width: 100%;
@@ -121,31 +173,62 @@ export default {
         color: $secondary-color;
       }
     }
-  }
-  table {
-    border: 1px solid $primary-color;
-    table-layout: fixed;
-    width: 100%;
-    border-collapse: collapse;
-    tr {
-      background-color: transparentize(white, .3);
-    }
-    .fields {
+    .pagination {
+      @include row;
+      padding-top: 8px;
+      justify-content: center;
+      font-weight: bold;
       color: $primary-color;
-      th {
-        padding: 12px;
-        border-bottom: 2px solid $primary-color;
+      div {
+        @include row;
+        background-color: transparentize(white, .3);
+        border: 1px solid $primary-color;
+        justify-content: center;
+        align-items: center;
+        border-radius: 10px;
+        font-size: 18px;
+        .chevron {
+          padding: 8px 18px;
+          cursor: pointer;
+        }
+        .page-counter {
+          padding: 0 8px;
+          height: 100%;
+          display: flex;
+          align-items: center;
+          cursor: pointer;
+        }
+        .current-page {
+          color: white;
+          text-shadow: 1px  1px $primary-color, -1px  1px $primary-color, 1px -1px $primary-color, -1px -1px $primary-color, 1px 1px 2px $secondary-color;
+        }
       }
     }
-    .data {
-      color: $secondary-color;
-      td {
-        font-weight: bold;
-        border-bottom: 2px solid $primary-color;
-        padding: 12px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+    table {
+      border: 1px solid $primary-color;
+      table-layout: fixed;
+      width: 100%;
+      border-collapse: collapse;
+      tr {
+        background-color: transparentize(white, .3);
+      }
+      .fields {
+        color: $primary-color;
+        th {
+          padding: 12px;
+          border-bottom: 2px solid $primary-color;
+        }
+      }
+      .data {
+        color: $secondary-color;
+        td {
+          font-weight: bold;
+          border-bottom: 2px solid $primary-color;
+          padding: 12px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
       }
     }
   }

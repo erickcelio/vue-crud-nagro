@@ -1,7 +1,7 @@
 <template>
   <div>
     <ReturnPage />
-    <Table :items="properties" :fields="fields"/>
+    <Table max-items="10" :items="properties" :fields="fields"/>
   </div>
 </template>
 
