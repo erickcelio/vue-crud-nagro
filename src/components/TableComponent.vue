@@ -20,49 +20,51 @@
           icon="plus"
         />
       </div>
-      <table>
-        <thead>
-        <tr class="fields">
-          <th
-            v-for="(field, index) in fields"
-            :style="`width: ${field.width}%;`"
-            @click="changeOrder(field.nameInArray)"
+      <transition>
+        <table>
+          <thead>
+          <tr class="fields">
+            <th
+              v-for="(field, index) in fields"
+              :style="`width: ${field.width}%;`"
+              @click="changeOrder(field.nameInArray)"
+              :key="index">
+              {{ field.name }}
+              <v-icon
+                :style="orderBy !== field.nameInArray ? 'visibility: hidden' : ''"
+                scale="0.8"
+                :name="orderDirection === 'asc' ? 'sort-amount-down' : 'sort-amount-up'"
+              />
+            </th>
+          </tr>
+          </thead>
+          <tbody v-if="paginatedItems[currentPage].length">
+          <tr
+            class="data"
+            v-for="(item, index) in paginatedItems[currentPage]"
+            @click="onSelectItem(item)"
             :key="index">
-            {{ field.name }}
-            <v-icon
-              v-if="orderBy === field.nameInArray"
-              scale="0.8"
-              :name="orderDirection === 'asc' ? 'sort-amount-down' : 'sort-amount-up'"
-            />
-          </th>
-        </tr>
-        </thead>
-        <tbody v-if="paginatedItems[currentPage].length">
-        <tr
-          class="data"
-          v-for="(item, index) in paginatedItems[currentPage]"
-          @click="onSelectItem(item)"
-          :key="index">
-          <td
-            v-for="(field, index) in fields"
-            :style="`text-align: ${field.align || 'left'}`"
-            :key="index">
-            <span>
-              {{ item[field.nameInArray] }}
-            </span>
-          </td>
-        </tr>
-        </tbody>
-        <tbody v-else>
-        <tr class="data">
-          <td :colspan="fields.length" style="text-align: center">
-            <span>
-              Nenhum item Encontrado
-            </span>
-          </td>
-        </tr>
-        </tbody>
-      </table>
+            <td
+              v-for="(field, index) in fields"
+              :style="`text-align: ${field.align || 'left'}`"
+              :key="index">
+              <span>
+                {{ item[field.nameInArray] }}
+              </span>
+            </td>
+          </tr>
+          </tbody>
+          <tbody v-else>
+          <tr class="data">
+            <td :colspan="fields.length" style="text-align: center">
+              <span>
+                Nenhum item Encontrado
+              </span>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </transition>
       <div class="pagination">
         <div>
         <span class="chevron" @click="updateCurrentPage(currentPage - 1)">
@@ -178,10 +180,12 @@ export default {
       margin-bottom: 8px;
       font-size: 16px;
       .selectButton {
+        @include box-shadow-default;
         flex: 1;
       }
       .filterInput {
-        flex: 4;
+        @include box-shadow-default;
+        flex: 3;
         border: 1px solid $primary-color;
         margin-left: 8px;
         background: transparentize(white, .3);
@@ -208,6 +212,7 @@ export default {
       color: $primary-color;
       div {
         @include row;
+        @include box-shadow-default;
         background-color: transparentize(white, .3);
         border: 1px solid $primary-color;
         justify-content: center;
@@ -237,6 +242,7 @@ export default {
       width: 100%;
       border-collapse: collapse;
       tr {
+        cursor: pointer;
         background-color: transparentize(white, .3);
       }
       .fields {
@@ -255,6 +261,9 @@ export default {
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
+        }
+        &:hover {
+          background-color: transparentize(white, .2);
         }
       }
     }

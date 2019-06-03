@@ -40,6 +40,11 @@ export default {
     confirmFunction: async function (data) {
       delete data.growerName
       await this.updateProperty(data)
+      this.$notify({
+        group: 'info',
+        type: 'success',
+        text: 'Propriedade salva com sucesso!'
+      })
       this.$router.push(`/properties/view/${this.property.id}`)
     },
     changeGrower: async function ({ id, name }) {
@@ -49,12 +54,10 @@ export default {
   },
   async mounted () {
     const { params } = this.$route
-    await this.fetchProperties()
-    if (!this.getPropertyById(params.id)) {
+    const property = this.getPropertyById(params.id)
+    if (!property) {
       this.$router.push('/growers')
     }
-    const property = this.getPropertyById(params.id)
-    await this.fetchGrowers()
     const grower = this.getGrowerById(property.growerId)
     property.growerName = grower.name
     this.fields[3].selected = grower

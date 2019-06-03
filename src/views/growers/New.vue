@@ -32,6 +32,11 @@ export default {
     },
     confirmFunction: async function (data) {
       await this.newGrower(data)
+      this.$notify({
+        group: 'info',
+        type: 'success',
+        text: 'Produtor criado com sucesso!'
+      })
       this.$router.push(`/growers`)
     }
   }

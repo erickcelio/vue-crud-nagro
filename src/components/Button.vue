@@ -39,6 +39,10 @@ export default {
     border-radius: 10px;
     border: 1px solid white;
     margin: 0 8px;
+    box-shadow: 1px 1px 2px $secondary-color;
+    &:hover {
+      background-color: $button-color-hover;
+    }
     .text {
       padding: 12px;
     }

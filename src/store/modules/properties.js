@@ -34,6 +34,25 @@ export default {
       const properties = context.state.properties.filter(property => property.id !== id)
       context.commit('fillProperties', properties)
     },
+    async deletePropertiesByGrowerId (context, growerId) {
+      const promises = []
+      const deletedProperties = []
+      context.state.properties.map((property) => {
+        if (property.growerId === growerId) {
+          promises.push(deleteProperty(property.id))
+          deletedProperties.push(property)
+        }
+      })
+      await Promise.all(promises)
+      const properties = context.state.properties.filter(property => {
+        let notExcluded = true
+        deletedProperties.map((deletedProperty) => {
+          notExcluded = deletedProperty.id === property.id ? false : notExcluded
+        })
+        return notExcluded
+      })
+      context.commit('fillProperties', properties)
+    },
     async updateProperty (context, data) {
       const updatedProperty = await updateProperty(data)
       if (updatedProperty) {

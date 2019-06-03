@@ -42,6 +42,11 @@ export default {
     },
     deleteFunction: async function () {
       await this.deleteProperty(this.property.id)
+      this.$notify({
+        group: 'info',
+        type: 'success',
+        text: 'Propriedade excluida com sucesso!'
+      })
       this.$router.push('/properties')
     }
   },

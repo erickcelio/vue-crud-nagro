@@ -30,14 +30,8 @@ export default {
       }
     }
   },
-  mounted () {
-    this.fetchGrowers()
-  },
   computed: {
     ...mapGetters(['growers'])
-  },
-  methods: {
-    ...mapActions(['fetchGrowers'])
   }
 }
 </script>

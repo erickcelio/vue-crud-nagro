@@ -30,7 +30,7 @@ export default {
     ...mapGetters(['getGrowerById'])
   },
   methods: {
-    ...mapActions(['fetchGrower', 'deleteGrower']),
+    ...mapActions(['fetchGrower', 'deleteGrower', 'deletePropertiesByGrowerId']),
     editFunction: function () {
       this.$router.push(`/growers/edit/${this.grower.id}`)
     },
@@ -39,6 +39,12 @@ export default {
     },
     deleteFunction: async function () {
       await this.deleteGrower(this.grower.id)
+      await this.deletePropertiesByGrowerId(this.grower.id)
+      this.$notify({
+        group: 'info',
+        type: 'success',
+        text: 'Produtor excluido com sucesso!'
+      })
       this.$router.push('/growers')
     }
   },

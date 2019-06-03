@@ -27,12 +27,6 @@ export default {
       ]
     }
   },
-  async mounted () {
-    if (!this.growers.length) {
-      await this.fetchGrowers()
-    }
-    this.fields[3].data = this.growers
-  },
   computed: {
     ...mapGetters(['growers'])
   },
@@ -43,11 +37,22 @@ export default {
     },
     confirmFunction: async function (data) {
       await this.newProperty(data)
+      this.$notify({
+        group: 'info',
+        type: 'success',
+        text: 'Propriedade criada com sucesso!'
+      })
       this.$router.push(`/properties`)
     },
     changeGrower: function (grower) {
       this.property.growerId = grower.id
     }
+  },
+  async mounted () {
+    if (!this.growers.length) {
+      await this.fetchGrowers()
+    }
+    this.fields[3].data = this.growers
   }
 }
 </script>

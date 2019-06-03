@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <notifications group="info" position="top center" />
     <Background />
     <router-view class="view"/>
   </div>
@@ -7,8 +8,16 @@
 
 <script>
 import Background from '@/components/Background.vue'
+import { mapActions } from 'vuex'
 export default {
-  components: { Background }
+  components: { Background },
+  methods: {
+    ...mapActions(['fetchGrowers', 'fetchProperties'])
+  },
+  async beforeMount () {
+    this.fetchGrowers()
+    this.fetchProperties()
+  }
 }
 </script>
 

@@ -36,6 +36,11 @@ export default {
     },
     confirmFunction: async function (data) {
       await this.updateGrower(data)
+      this.$notify({
+        group: 'info',
+        type: 'success',
+        text: 'Produtor salvo com sucesso!'
+      })
       this.$router.push(`/growers/view/${this.grower.id}`)
     }
   },

@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 import TableComponent from '@/components/TableComponent'
 export default {
   name: 'properties',
@@ -30,14 +30,8 @@ export default {
       }
     }
   },
-  mounted () {
-    this.fetchProperties()
-  },
   computed: {
     ...mapGetters(['properties'])
-  },
-  methods: {
-    ...mapActions(['fetchProperties'])
   }
 }
 </script>
