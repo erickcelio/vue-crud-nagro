@@ -19,6 +19,7 @@ export default {
   data () {
     return {
       grower: {},
+      growerBackUp: {},
       fields: [
         { name: 'Nome', key: 'name', type: 'text' },
         { name: 'CPF', key: 'cpf', type: 'text' }
@@ -31,7 +32,7 @@ export default {
   methods: {
     ...mapActions(['fetchGrower', 'updateGrower']),
     cancelFunction: function () {
-      console.log('here')
+      this.growers = this.growerBackUp
       this.$router.push(`/growers/view/${this.grower.id}`)
     },
     confirmFunction: async function (data) {
@@ -50,7 +51,8 @@ export default {
     if (!this.getGrowerById(params.id)) {
       this.$router.push('/growers')
     }
-    this.grower = this.getGrowerById(params.id)
+
+    this.grower = { ...this.getGrowerById(params.id) }
   }
 }
 </script>

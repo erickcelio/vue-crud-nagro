@@ -54,10 +54,34 @@ const newProperty = async (data) => {
   return property
 }
 
+const validatePropertiesData = (data) => {
+  const error = {}
+  if (data.name && data.name.length) {
+    if (data.total_area && parseInt(data.total_area)) {
+      if (data.city && data.name.length) {
+        if (data.growerId) {
+          data.total_area = parseInt(data.total_area)
+          return data
+        } else {
+          error.message = 'Produtor Inválido'
+        }
+      } else {
+        error.message = 'Cidade Inválida'
+      }
+    } else {
+      error.message = 'Área Total Inválida'
+    }
+  } else {
+    error.message = 'Nome Inválido'
+  }
+  throw error
+}
+
 export {
   getProperties,
   deleteProperty,
   getProperty,
   newProperty,
-  updateProperty
+  updateProperty,
+  validatePropertiesData
 }

@@ -57,6 +57,20 @@ const newGrower = async (data) => {
   return grower
 }
 
+const validateGrowerData = (data) => {
+  const error = {}
+  if (data.name && data.name.length) {
+    if (data.cpf && data.cpf.toString().length === 11) {
+      return data
+    } else {
+      error.message = 'CPF Inválido'
+    }
+  } else {
+    error.message = 'Nome Inválido'
+  }
+  throw error
+}
+
 function formatCpf (value) {
   return value.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/g, "\$1.\$2.\$3\-\$4")
 }
@@ -66,5 +80,6 @@ export {
   getGrower,
   deleteGrower,
   updateGrower,
-  newGrower
+  newGrower,
+  validateGrowerData
 }

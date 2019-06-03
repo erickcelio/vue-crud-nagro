@@ -34,6 +34,11 @@ export default {
       this.onSelect(option)
       this.selected = option
     }
+  },
+  mounted () {
+    if (!this.optionSelected) {
+      this.onSelectOption(this.options[0])
+    }
   }
 }
 </script>

@@ -14,6 +14,7 @@
 <script>
 import FormComponent from '@/components/Form'
 import { mapActions } from 'vuex'
+import { validateGrowerData } from '@/services/grower'
 export default {
   components: { FormComponent },
   data () {
@@ -31,13 +32,21 @@ export default {
       this.$router.push(`/growers`)
     },
     confirmFunction: async function (data) {
-      await this.newGrower(data)
-      this.$notify({
-        group: 'info',
-        type: 'success',
-        text: 'Produtor criado com sucesso!'
-      })
-      this.$router.push(`/growers`)
+      try {
+        await this.newGrower(validateGrowerData(data))
+        this.$notify({
+          group: 'info',
+          type: 'success',
+          text: 'Produtor criado com sucesso!'
+        })
+        this.$router.push(`/growers`)
+      } catch (e) {
+        this.$notify({
+          group: 'info',
+          type: 'error',
+          text: e.message
+        })
+      }
     }
   }
 }

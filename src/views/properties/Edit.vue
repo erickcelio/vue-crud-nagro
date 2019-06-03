@@ -15,6 +15,7 @@
 <script>
 import FormComponent from '@/components/Form'
 import { mapGetters, mapActions } from 'vuex'
+import { validatePropertiesData } from '@/services/properties'
 export default {
   components: { FormComponent },
   data () {
@@ -38,14 +39,21 @@ export default {
       this.$router.push(`/properties/view/${this.property.id}`)
     },
     confirmFunction: async function (data) {
-      delete data.growerName
-      await this.updateProperty(data)
-      this.$notify({
-        group: 'info',
-        type: 'success',
-        text: 'Propriedade salva com sucesso!'
-      })
-      this.$router.push(`/properties/view/${this.property.id}`)
+      try {
+        await this.updateProperty(validatePropertiesData(data))
+        this.$notify({
+          group: 'info',
+          type: 'success',
+          text: 'Propriedade salva com sucesso!'
+        })
+        this.$router.push(`/properties/view/${this.property.id}`)
+      } catch (e) {
+        this.$notify({
+          group: 'info',
+          type: 'error',
+          text: e.message
+        })
+      }
     },
     changeGrower: async function ({ id, name }) {
       this.property.growerId = id
@@ -62,7 +70,7 @@ export default {
     property.growerName = grower.name
     this.fields[3].selected = grower
     this.fields[3].data = this.growers
-    this.property = property
+    this.property = { ...property }
   }
 }
 </script>
